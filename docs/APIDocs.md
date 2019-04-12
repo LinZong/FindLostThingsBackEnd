@@ -3,6 +3,10 @@ http://111.230.238.192/learn/lost, 下文中要求请求的地址为 /user/login
 则意味着完整URL应该为
 http://111.230.238.192/learn/lost/user/login 
 请自行正确构造请求URL，如无特殊需求下文不再赘述。
+响应的成功与否由每个Response的StatusCode描述。参考返回码一览表。
+如果需要actk和userid鉴权的请求没有正确传递这些参数，会收到403 Forbidden错误。
+如果收到502或别的奇怪错误，请联系后端。这种情况一般是服务器死了。
+
 
 1. 用户登录态 & 账户资料
    
@@ -94,3 +98,40 @@ http://111.230.238.192/learn/lost/user/login
             "CategoryDetails":[{"Id":xxx,"Name":"yyy"}]  与上述类似
         }
         
+
+ 3. 与对象存储空间交互（上传图片）
+    
+    (1) 获取操作存储桶的临时Key:
+
+    本项目采用腾讯云的对象存储服务。由于采取的策略为公有读私有写，客户端在需要向存储桶上传数据时，为了安全需要获得腾讯云授权本次操作（可以持续一段时间）的TmpSecretId、TmpSecretKey和Token。
+
+    GET /tencent/coskey
+    请求Header添加 actk=xxxxxx, userid=snowflakeid
+
+    正常情况下服务器将返回类似消息。该返回较为复杂，写代码的时候要注意一些:
+    ```
+    {
+        "StatusCode":0,
+        "FullBucketName":"完整存储桶的名字，接下来上传文件时需要用到",
+        "Region":"本存储桶所在地区。接下来上传文件需要用到",
+        "Response":"响应主体, 由于整体较长，故单独抽出描述"
+    }
+    ```
+
+    响应主体形如下:
+    ```json
+    {
+        "ExpiredTime": 1555091373,
+        "Expiration": "2019-04-12T17:49:33Z",
+        "Credentials": {
+            "Token": "PRTGBfDqrKkCnHA7TyzZ2Qnd59cQZ7kj6475c6835f4a30c492ad8a58928ed4b4vNKGyPIDDoSGT63wxdFVHmNKoUh-s_V9mIc5GPateIVCSj9kedtNYWo8ZqrFl7z-pPFj001KqYcAVjHDe5IoOFPOd8ZfGk5_5BXh0U_65h21bRDpH6QwsaNJVGOXfV9TzLfLkVgc7AVMpQxaF\*\*后面还有，截掉了\*\*",
+            "TmpSecretId": "截掉-aPheldxEQwX05vY_F4IvGKqkhHP0",
+            "TmpSecretKey": "Lh1qQ截掉一些vjwek5u+sEotKC2k8b2OA="
+        },
+        "RequestId": "523b514f-截掉-442d-9fc8-一些"
+    }
+    ```
+
+    解析上述JSON中的内容填入Tencent COS SDK中上传文件要求的参数中。
+
+    特别注意的是，一般而言这些临时Key都会有大约半小时的有效期。具体可以自行解析ExpiredTime得到结果。客户端应该在Key仍处于有效期的时候持久化好这些Key，在Key仍处于有效期的时候重复利用，避免每次上传文件都请求服务器给Key，而造成大量无谓发Key操作。有关客户端如何操作，请参考[腾讯云对于存储桶的官方文档](https://cloud.tencent.com/document/product/436/14048)。

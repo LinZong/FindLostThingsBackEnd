@@ -34,6 +34,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
                     return new JsonResult(new TencentCosTempKeyResponse()
                     {
                         StatusCode = 0,
+                        Region = keyService.Region,
                         FullBucketName = $"{keyService.BucketName}-{keyService.AppID}",
                         Response = RespToken.ToString()
                     });
