@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FindLostThingsBackEnd.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         // GET api/values
-        [HttpGet]
+        [HttpGet("values")]
         public ActionResult<string> Get()
         {
             return "It works!";

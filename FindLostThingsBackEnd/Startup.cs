@@ -8,10 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using FindLostThingsBackEnd.Middleware;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using ChargeScheduler.Services.User.UIDWorker;
+using FindLostThingsBackEnd.Service.Tencent;
 
 namespace FindLostThingsBackEnd
 {
@@ -37,6 +35,16 @@ namespace FindLostThingsBackEnd
             services.AddDbContext<LostContext>(opt => opt.UseMySQL(DbConnString));
 
             services.Configure<SnowflakeConfigurationModel>(Configuration.GetSection("SnowflakeConfiguration"));
+            services.AddTencentCos(x =>
+            {
+                x.SecretId = Configuration["TencentCos:SecretId"];
+                x.SecretKey = Configuration["TencentCos:SecretKey"];
+                x.AllowPrefix = "*";
+                x.BucketName = "nemesiss";
+                x.AppID = "1255798866";
+                x.DurationSeconds = 1800;
+                x.Region = "ap-guangzhou";
+            });
             services.AddSingleton<IdWorker>();
             services.AddAllServices<IFindLostThingsService>();
             services.AddAllServices<IFindLostThingsDbOperator>();
