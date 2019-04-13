@@ -69,7 +69,8 @@ namespace FindLostThingsBackEnd.Service.User
                     Openid = info.OpenID,
                     AccessToken = info.AccessToken,
                     AndroidDevId = info.CurrentDeviceAndroidID,
-                    Id = NewUserID
+                    Id = NewUserID,
+                    Nickname = info.NickName
                 };
                 try
                 {

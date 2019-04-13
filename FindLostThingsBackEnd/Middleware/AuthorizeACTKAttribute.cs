@@ -22,6 +22,7 @@ namespace FindLostThingsBackEnd.Middleware
             //var attribs = controllerActionDescriptor.MethodInfo.Attributes;
             //string controllerName = controllerActionDescriptor?.ControllerName;
             //string actionName = controllerActionDescriptor?.ActionName;
+
             StringValues ACTK, USERID;
             bool IsACTK = context.HttpContext.Request.Headers.TryGetValue("actk", out ACTK);
             bool IsUSERID = context.HttpContext.Request.Headers.TryGetValue("userid", out USERID);
