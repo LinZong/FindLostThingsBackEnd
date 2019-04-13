@@ -42,8 +42,9 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("bigint(20)")
-                    .ValueGeneratedNever();
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FoundAddrDescription)
                     .HasColumnName("found_addr_description")

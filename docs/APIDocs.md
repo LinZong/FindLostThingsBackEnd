@@ -134,3 +134,79 @@ http://111.230.238.192/learn/lost/user/login
     解析上述JSON中的内容填入Tencent COS SDK中上传文件要求的参数中。
 
     特别注意的是，一般而言这些临时Key都会有大约半小时的有效期。具体可以自行解析ExpiredTime得到结果。客户端应该在Key仍处于有效期的时候持久化好这些Key，在Key仍处于有效期的时候重复利用，避免每次上传文件都请求服务器给Key，而造成大量无谓发Key操作。有关客户端如何操作，请参考[腾讯云对于存储桶的官方文档](https://cloud.tencent.com/document/product/436/14048)。
+
+    (2) 存储桶文件命名规范
+
+    为了实现比较有序的管理存储桶中保存的静态文件，现在介绍向存储桶中上传文件的目录命名规范
+        
+    需要上传到存储桶的数据有两类，1是失物的图片数据，2是用户的身份认证信息，例如绿卡拍照，蓝卡拍照，身份证照等等。
+
+    为了使得存储桶看上去干净整洁，这两种数据需要放在不同的文件夹下。
+
+    对于1数据，需要将 [对象键](https://cloud.tencent.com/document/product/436/13324) 设置为
+    
+    ```lost/upload/things/<当前登录账号的user-id>/<201901,201902这样格式的年月字符串>/<发布失物的失物ID，预计使用GUID>/文件名.jpg```
+    
+    举例，今天是2019年4月13日，一个UserID为123456的用户发了一个失物请求，这个请求包含了4张图片。本地命名为1.jpg, 2.jpg, 3.jpg, 4.jpg. 
+
+    那么上传路径的前缀应该类似于
+
+    ```
+    lost/upload/things/123456/201904/C6E131A9-E8C9-4223-9D0B-E92AD01580D0/   ①路径
+    ```
+
+    接下来，计算上述字符串的SHA1, 使用类似下面的函数进行计算
+
+    ```java
+        public static String sha1Encode(String content) {
+            byte[] hash;
+            try {
+                hash = MessageDigest.getInstance("SHA-1").digest(content.getBytes("UTF-8"));
+             } catch (Exception e) {
+                throw new RuntimeException("NoSuchAlgorithmException", e);
+            }
+            StringBuilder hex = new StringBuilder(hash.length * 2);
+            for (byte b : hash) {
+                if ((b & 0xFF) < 0x10) {
+                    hex.append("0");
+                }
+                hex.append(Integer.toHexString(b & 0xFF));
+            }
+            return hex.toString();
+        }
+    ```
+
+    假设计算得到了以下结果
+    ```
+    b60d121b438a380c343d5ec3c2037564b82ffef3
+    ```
+
+    因为软件限制一个失物招领信息最多发9张图片，那么从这条SHA1计算结果中，从左往右，以4个字符为一组，不断截取出一小段字符作为文件名的前缀，拼合原本的文件名，如下例子：
+
+
+    b60d-1.jpg
+
+    121b-2.jpg
+
+    438a-3.jpg
+
+    380c-4.jpg
+
+    这四个文件。最后拼合①的路径，作为上传至存储桶的对象键。
+    以第一个文件为例，最终对象键应该设置为:
+    ```
+    lost/upload/things/123456/201904/C6E131A9-E8C9-4223-9D0B-E92AD01580D0/b60d-1.jpg
+    ```
+
+    这样的一波操作主要是为了迎合存储桶的索引方式，加快寻址文件的速度。
+
+
+    对于2数据，路径构造为:
+
+    ```
+    lost/upload/idvalidate/<user-id>
+    ```
+
+    只不过这次不需要再附带年月字符串和GUID了。直接把这个路径扔去SHA1.得到的结果作为前缀，拼合文件名即可。
+
+    <strong>值得注意的是，这样截取文件前缀，是有几率出现两个前缀重复的。所以不要完全依赖前缀来保证在某个文件夹下的文件名的唯一性。</strong>

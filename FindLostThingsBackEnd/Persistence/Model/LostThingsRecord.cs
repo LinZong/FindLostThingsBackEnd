@@ -5,7 +5,7 @@ namespace FindLostThingsBackEnd.Persistence.Model
 {
     public partial class LostThingsRecord
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public string Title { get; set; }
         public int ThingCatId { get; set; }
         public int ThingDetailId { get; set; }
