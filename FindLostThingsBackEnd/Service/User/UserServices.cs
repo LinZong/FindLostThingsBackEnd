@@ -47,6 +47,21 @@ namespace FindLostThingsBackEnd.Service.User
                 UserInfo = info
             };
         }
+
+        public CommonResponse GetUnAuthenticatedAccountInfo()
+        {
+            var info = userOperator.GetUnAuthenticatedUser();
+            if (info == null)
+            {
+                return new CommonResponse() { StatusCode = 1202 };
+            }
+            return new UserInfoResponse()
+            {
+                StatusCode = 0,
+                UserInfo = info
+            };
+        }
+
         public CommonResponse ProcessLoginAccountInfo(LoginUploadAccountInfo info)
         {
             var userInfo = userOperator.GetUserInfo(info.OpenID);

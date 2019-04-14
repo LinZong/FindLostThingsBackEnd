@@ -45,6 +45,7 @@ namespace FindLostThingsBackEnd
                 x.DurationSeconds = 1800;
                 x.Region = "ap-guangzhou";
             });
+            services.AddCors();
             services.AddSingleton<IdWorker>();
             services.AddAllServices<IFindLostThingsService>();
             services.AddAllServices<IFindLostThingsDbOperator>();
@@ -59,10 +60,10 @@ namespace FindLostThingsBackEnd
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                
             }
-
+            app.UseCors(x => x.AllowAnyOrigin());
             app.UseMvc();
-
         }
     }
 }

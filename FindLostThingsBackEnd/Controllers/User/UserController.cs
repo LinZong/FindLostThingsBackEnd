@@ -37,5 +37,12 @@ namespace FindLostThingsBackEnd.Controllers.User
         {
             return new JsonResult(services.GetUserInfo(userid));
         }
+
+        [HttpGet("unauth")]
+        [TypeFilter(typeof(AuthorizeACTKAttribute))]
+        public JsonResult GetUnAuthenticatedAccountInfo()
+        {
+            return new JsonResult(services.GetUnAuthenticatedAccountInfo());
+        }
     }
 }
