@@ -63,8 +63,7 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
 
                 entity.Property(e => e.Given)
                     .HasColumnName("given")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasColumnType("bigint(20)");
 
                 entity.Property(e => e.GivenContacts)
                     .HasColumnName("given_contacts")
@@ -85,11 +84,9 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
                 entity.Property(e => e.Publisher)
                     .IsRequired()
                     .HasColumnName("publisher")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasColumnType("bigint(20)");
 
                 entity.Property(e => e.PublisherContacts)
-                    .IsRequired()
                     .HasColumnName("publisher_contacts")
                     .IsUnicode(false);
 

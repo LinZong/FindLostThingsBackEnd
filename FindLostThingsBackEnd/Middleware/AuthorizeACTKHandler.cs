@@ -41,12 +41,11 @@ namespace FindLostThingsBackEnd.Middleware
         protected override Task HandleForbiddenAsync(AuthenticationProperties properties)
         {
             Context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
-
-            Context.Response.OnStarting(() =>
-            {
-                Context.Response.Body.Write(Encoding.UTF8.GetBytes("Request parameter is invalid."));
-                return Task.CompletedTask;
-            });
+            //Context.Response.OnStarting(() =>
+            //{
+            //    Context.Response.Body.Write(Encoding.UTF8.GetBytes("Request parameter is invalid."));
+            //    return Task.CompletedTask;
+            //});
             return base.HandleForbiddenAsync(properties);
         }
     }

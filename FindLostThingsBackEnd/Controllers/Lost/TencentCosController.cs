@@ -13,6 +13,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
 {
 
     [Route("tencent/")]
+    [ApiController]
     public class TencentCosController : ControllerBase
     {
         private TencentCosTempKey keyService;
