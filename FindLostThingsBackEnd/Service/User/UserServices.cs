@@ -7,6 +7,7 @@ using FindLostThingsBackEnd.Persistence.DAO.Operator;
 using FindLostThingsBackEnd.Persistence.Model;
 using FindLostThingsBackEnd.Services;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 
 namespace FindLostThingsBackEnd.Service.User
@@ -55,10 +56,10 @@ namespace FindLostThingsBackEnd.Service.User
             {
                 return new CommonResponse() { StatusCode = 1202 };
             }
-            return new UserInfoResponse()
+            return new UnAuthenticatedUserResponse()
             {
                 StatusCode = 0,
-                UserInfo = info
+                UserList = info
             };
         }
 
@@ -107,7 +108,37 @@ namespace FindLostThingsBackEnd.Service.User
                 }
             }
         }
-
+        public CommonResponse UpdateUserInfo(UserInfo info)
+        {
+            var Info = userOperator.GetUserInfo(info.Id);
+            if (Info == null)
+            {
+                return new CommonResponse()
+                {
+                    StatusCode = 1202
+                };
+            }
+            else
+            {
+                try
+                {
+                    PropertyHelper.DeepCopyProperties<UserInfo,JsonIgnoreAttribute>(info, Info);
+                    userOperator.UpdateUserInfo(Info);
+                    return new CommonResponse()
+                    {
+                        StatusCode = 0
+                    };
+                }
+                catch (Exception e)
+                {
+                    ErrorHandler.FormatError<UserServices>(Logger, e);
+                    return new CommonResponse()
+                    {
+                        StatusCode = 1202
+                    };
+                }
+            }
+        }
 
         public CommonResponse UpdateAccountContacts(AccountContacts cts,long UserID)
         {
@@ -121,7 +152,7 @@ namespace FindLostThingsBackEnd.Service.User
             }
             else
             {
-                var UpdatedFields = ContactsHelper.FillNonNullFieldsToUserInfoInstance(cts, Info);
+                var UpdatedFields = PropertyHelper.FillNonNullFieldsToUserInfoInstance(cts, Info);
                 try
                 {
                     userOperator.UpdateUserInfo(Info);

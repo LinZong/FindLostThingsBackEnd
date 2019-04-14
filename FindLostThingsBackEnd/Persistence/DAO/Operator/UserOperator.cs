@@ -26,9 +26,9 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
             return context.UserInfo.FirstOrDefault(x => x.Id == UserID);
         }
 
-        public UserInfo GetUnAuthenticatedUser()
+        public IQueryable<UserInfo> GetUnAuthenticatedUser()
         {
-            return context.UserInfo.FirstOrDefault(x => x.RealPersonValid == 0 && !string.IsNullOrEmpty(x.RealPersonIdentity));
+            return context.UserInfo.Where(x => x.RealPersonValid == 0 && !string.IsNullOrEmpty(x.RealPersonIdentity));
         }
 
         public void UpdateUserInfo(UserInfo info,bool Append = false)

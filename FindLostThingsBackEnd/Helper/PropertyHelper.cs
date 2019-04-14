@@ -1,10 +1,11 @@
 ﻿using FindLostThingsBackEnd.Model.Request.User;
 using FindLostThingsBackEnd.Persistence.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FindLostThingsBackEnd.Helper
 {
-    public static class ContactsHelper
+    public static class PropertyHelper
     {
         public static List<string> FillNonNullFieldsToUserInfoInstance(AccountContacts contacts, UserInfo info)
         {
@@ -22,6 +23,16 @@ namespace FindLostThingsBackEnd.Helper
                 }
             }
             return UpdatedFields;
+        }
+
+        public static T DeepCopyProperties<T,TIgnoreAttribute>(T source,T dest)
+        {
+            var properties = typeof(T).GetProperties().Where(x => !x.CustomAttributes.Any(y => y.AttributeType == typeof(TIgnoreAttribute)));
+            foreach (var prop in properties)
+            {
+                prop.SetValue(dest,prop.GetValue(source));
+            }
+            return source;
         }
     }
 }
