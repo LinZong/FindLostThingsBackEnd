@@ -9,6 +9,6 @@ namespace FindLostThingsBackEnd.Persistence.Model
         public string BuildingName { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
-        public string BuilddingAddress { get; set; }
+        public string BuildingAddress { get; set; }
     }
 }

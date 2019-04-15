@@ -2,7 +2,6 @@
 using FindLostThingsBackEnd.Persistence.Model;
 using FindLostThingsBackEnd.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 
 namespace FindLostThingsBackEnd.Persistence.DAO.Operator
@@ -24,8 +23,8 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
         {
             var school = GetSupportSchools().First(x => x.Id == SchoolId);
             var SchoolTbName = school.SchoolAddrTbName;
-            string FmtSql = $"SELECT * FROM `lost`.{SchoolTbName};";
-            return context.SchoolInfo.FromSql(FmtSql);
+            string FmtQuery = $"SELECT * FROM lost.{SchoolTbName};";
+            return context.SchoolInfo.FromSql(FmtQuery);
         }
     }
 }

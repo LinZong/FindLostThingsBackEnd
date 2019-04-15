@@ -27,12 +27,12 @@ namespace FindLostThingsBackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             bool ReadProd = bool.Parse(Configuration["IsReadProdDb"]);
-            var DbConnString = ReadProd ? Configuration["ConnectionStrings:MySQLConnectionStringProd"] : Configuration["ConnectionStrings:MySQLConnectionString"];
+            var DbConnString = ReadProd ? Configuration["SQLServerDBConnStr"] : Configuration["SQLServerDBConnStr"];
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                     .AddJsonOptions(ServiceConfigurator.ConfigureKeepCaseOfMetadataInJsonResult);
 
             logger.LogInformation($"Used db connection string : {DbConnString}");
-            services.AddDbContext<LostContext>(opt => opt.UseMySQL(DbConnString));
+            services.AddDbContext<LostContext>(opt => opt.UseSqlServer(DbConnString));
 
             services.Configure<SnowflakeConfigurationModel>(Configuration.GetSection("SnowflakeConfiguration"));
             services.AddTencentCos(x =>

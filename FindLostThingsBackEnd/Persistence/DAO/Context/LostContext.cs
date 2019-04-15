@@ -1,7 +1,5 @@
-﻿using System;
+﻿using FindLostThingsBackEnd.Persistence.Model;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using FindLostThingsBackEnd.Persistence.Model;
 
 namespace FindLostThingsBackEnd.Persistence.DAO.Context
 {
@@ -25,7 +23,10 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
+            if (!optionsBuilder.IsConfigured)
+            {
+                
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,92 +43,59 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .IsRequired()
                     .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .ValueGeneratedNever();
 
                 entity.Property(e => e.FoundAddrDescription)
                     .HasColumnName("found_addr_description")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.FoundAddress)
                     .IsRequired()
                     .HasColumnName("found_address")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
-                entity.Property(e => e.FoundTime)
-                    .HasColumnName("found_time")
-                    .HasColumnType("bigint(20)");
+                entity.Property(e => e.FoundTime).HasColumnName("found_time");
 
-                entity.Property(e => e.Given)
-                    .HasColumnName("given")
-                    .HasColumnType("bigint(20)");
+                entity.Property(e => e.Given).HasColumnName("given");
 
-                entity.Property(e => e.GivenContacts)
-                    .HasColumnName("given_contacts")
-                    .IsUnicode(false);
+                entity.Property(e => e.GivenContacts).HasColumnName("given_contacts");
 
-                entity.Property(e => e.GivenTime)
-                    .HasColumnName("given_time")
-                    .HasColumnType("bigint(20)");
+                entity.Property(e => e.GivenTime).HasColumnName("given_time");
 
-                entity.Property(e => e.Isgiven)
-                    .HasColumnName("isgiven")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Isgiven).HasColumnName("isgiven");
 
-                entity.Property(e => e.PublishTime)
-                    .HasColumnName("publish_time")
-                    .HasColumnType("bigint(20)");
+                entity.Property(e => e.PublishTime).HasColumnName("publish_time");
 
-                entity.Property(e => e.Publisher)
-                    .IsRequired()
-                    .HasColumnName("publisher")
-                    .HasColumnType("bigint(20)");
+                entity.Property(e => e.Publisher).HasColumnName("publisher");
 
-                entity.Property(e => e.PublisherContacts)
-                    .HasColumnName("publisher_contacts")
-                    .IsUnicode(false);
+                entity.Property(e => e.PublisherContacts).HasColumnName("publisher_contacts");
 
-                entity.Property(e => e.ThingAddiDescription)
-                    .HasColumnName("thing_addi_description")
-                    .IsUnicode(false);
+                entity.Property(e => e.ThingAddiDescription).HasColumnName("thing_addi_description");
 
-                entity.Property(e => e.ThingCatId)
-                    .HasColumnName("thing_cat_id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.ThingCatId).HasColumnName("thing_cat_id");
 
-                entity.Property(e => e.ThingDetailId)
-                    .HasColumnName("thing_detail_id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.ThingDetailId).HasColumnName("thing_detail_id");
 
-                entity.Property(e => e.ThingPhotoUrls)
-                    .HasColumnName("thing_photo_urls")
-                    .IsUnicode(false);
+                entity.Property(e => e.ThingPhotoUrls).HasColumnName("thing_photo_urls");
 
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasColumnName("title")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
             });
 
             modelBuilder.Query<SchoolBuildingInfo>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
 
-                entity.Property(e => e.BuilddingAddress)
-                    .HasColumnName("building_address")
-                    .IsUnicode(false);
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.BuildingAddress).HasColumnName("building_address");
 
                 entity.Property(e => e.BuildingName)
                     .IsRequired()
                     .HasColumnName("building_name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.Latitude).HasColumnName("latitude");
 
@@ -138,36 +106,29 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
             {
                 entity.ToTable("support_school", "lost");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.SchoolAddrTbName)
                     .IsRequired()
                     .HasColumnName("school_addr_tb_name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
             });
 
             modelBuilder.Entity<ThingsCategory>(entity =>
             {
                 entity.ToTable("things_category", "lost");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
             });
 
             modelBuilder.Entity<ThingsDetail>(entity =>
@@ -177,19 +138,14 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
                 entity.HasIndex(e => e.CategoryId)
                     .HasName("category_index");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.CategoryId)
-                    .HasColumnName("category_id")
-                    .HasColumnType("int(11)");
+                entity.Property(e => e.CategoryId).HasColumnName("category_id");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasColumnName("name")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
             });
 
             modelBuilder.Entity<UserInfo>(entity =>
@@ -198,58 +154,46 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
-                    .HasColumnType("bigint(20)")
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.AccessToken)
                     .IsRequired()
                     .HasColumnName("access_token")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.AndroidDevId)
                     .IsRequired()
                     .HasColumnName("android_dev_id")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
 
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Nickname)
                     .HasColumnName("nickname")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.Openid)
                     .IsRequired()
                     .HasColumnName("openid")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.PhoneNumber)
                     .HasColumnName("phone")
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
+                    .HasMaxLength(15);
 
                 entity.Property(e => e.QQ)
                     .HasColumnName("qq")
-                    .HasMaxLength(45)
-                    .IsUnicode(false);
+                    .HasMaxLength(45);
+
+                entity.Property(e => e.RealPersonIdentity).HasColumnName("real_person_identity");
+
+                entity.Property(e => e.RealPersonValid).HasColumnName("real_person_vaild");
 
                 entity.Property(e => e.WxID)
                     .HasColumnName("wxid")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.RealPersonValid)
-                .HasColumnName("real_person_vaild")
-                .HasColumnType("int(11)");
-
-                entity.Property(e => e.RealPersonIdentity)
-                .HasColumnName("real_person_identity");
+                    .HasMaxLength(100);
             });
         }
     }
