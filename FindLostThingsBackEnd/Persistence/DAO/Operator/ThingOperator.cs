@@ -32,7 +32,6 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
             {
                 return DbTimeLine.SkipWhile(x => x.Id != EndItemId).Skip(1).Take(Count).AsQueryable();
             }
-            
         }
 
         public IQueryable<LostThingsRecord> GetUserPublishedThings(long UserID)

@@ -310,11 +310,15 @@ http://111.230.238.192/learn/lost/user/login
         GET 
         请求头带上actk和userid
         actk和userid不再赘述
-        body -- form-data
+        以QueryString的形式给出以下参数:
 
         EndItemId -- string 客户端目前获取的整条瀑布流中最后一个Item的GUID。
         HaveFetchedItemCount -- int --客户端从第一条请求至今一共接受了多少条数据。
         Count -- int
+
+        例如:
+
+        /thing/list?EndItemId=000F55E6-6BCD-4C60-99C3-FEDA9AC7AF0C&HaveFetchedItemCount=10&Count=100
 
         服务器返回:
         正常情况将返回一个里面全是(5)中描述的对象的JSON数组。
@@ -377,11 +381,11 @@ http://111.230.238.192/learn/lost/user/login
         ```
 
 (3) 获取一个指定账户发布的全部失物信息（我发布的）
-    地址 /thing/mylist
+    地址     /thing/mylist?type=1 (1为发布，0为认领的失物信息)
     GET 
     请求头带上actk和userid。
-    body 以form-data的形式给出:
-    type = 1 (1为发布，0为认领的失物信息)
+    get
+
     服务器返回:
     返回一个里面全是(5)中描述的对象的JSON数组。可能是空数组。
     注解：

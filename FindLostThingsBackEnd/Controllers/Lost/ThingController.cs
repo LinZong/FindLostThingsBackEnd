@@ -22,7 +22,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
 
         [HttpGet("list")]
         [TypeFilter(typeof(AuthorizeACTKAttribute))]
-        public JsonResult GetThingsTimeLine([FromForm] string EndItemId, [FromForm] string HaveFetchedItemCount, [FromForm] int Count)
+        public JsonResult GetThingsTimeLine([FromQuery] string EndItemId, [FromQuery] string HaveFetchedItemCount, [FromQuery] int Count)
         {
             int RHaveFetchedItemCount = 0;
             int.TryParse(HaveFetchedItemCount, out RHaveFetchedItemCount);
@@ -40,7 +40,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
 
         [HttpGet("mylist")]
         [TypeFilter(typeof(AuthorizeACTKAttribute))]
-        public JsonResult GetMyThingsList([FromForm] int type,[FromHeader] long userid)
+        public JsonResult GetMyThingsList([FromQuery] int type,[FromHeader] long userid)
         {
             long UserID = userid;
             switch (type)
