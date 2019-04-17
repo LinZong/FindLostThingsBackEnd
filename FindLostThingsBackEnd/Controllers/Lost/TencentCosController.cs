@@ -37,7 +37,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
                         StatusCode = 0,
                         Region = keyService.Region,
                         FullBucketName = $"{keyService.BucketName}-{keyService.AppID}",
-                        Response = RespToken.ToString()
+                        Response = RespToken
                     });
                 }
                 return new JsonResult(new CommonResponse()
