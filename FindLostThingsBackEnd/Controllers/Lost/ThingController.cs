@@ -1,4 +1,5 @@
 ﻿using FindLostThingsBackEnd.Middleware;
+using FindLostThingsBackEnd.Model.Request.Lost;
 using FindLostThingsBackEnd.Model.Response;
 using FindLostThingsBackEnd.Persistence.Model;
 using FindLostThingsBackEnd.Service.Lost;
@@ -61,5 +62,11 @@ namespace FindLostThingsBackEnd.Controllers.Lost
             return new JsonResult(thingServices.UpdateLostThingRecord(record));
         }
 
+        [HttpGet("search")]
+        [TypeFilter(typeof(AuthorizeACTKAttribute))]
+        public JsonResult SearchLostThingRecords([FromBody] SearchLostThingsParameter sp)
+        {
+            return new JsonResult(thingServices.SearchLostThingRecords(sp));
+        }
     }
 }

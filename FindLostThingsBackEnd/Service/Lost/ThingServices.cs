@@ -1,4 +1,5 @@
 ﻿using FindLostThingsBackEnd.Helper;
+using FindLostThingsBackEnd.Model.Request.Lost;
 using FindLostThingsBackEnd.Model.Response;
 using FindLostThingsBackEnd.Persistence.DAO.Operator;
 using FindLostThingsBackEnd.Persistence.Model;
@@ -110,6 +111,11 @@ namespace FindLostThingsBackEnd.Service.Lost
                     StatusCode = 1503
                 };
             }
+        }
+
+        public IQueryable<LostThingsRecord> SearchLostThingRecords(SearchLostThingsParameter sp)
+        {
+            return thing.SearchRecords(sp);
         }
     }
 }
