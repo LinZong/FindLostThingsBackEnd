@@ -75,23 +75,24 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
         public IQueryable<LostThingsRecord> SearchRecords(SearchLostThingsParameter sp)
         {
             var query = context.LostThingsRecord.Where(x => x.ThingCatId == sp.ThingCatId
-                                            && ExtractSchoolId(x.FoundAddress) == sp.SchoolId
                                             && sp.FoundDateBeginUnix <= x.FoundTime 
-                                            && x.FoundTime <= sp.FoundDateEndUnix).ToList();
+                                            && x.FoundTime <= sp.FoundDateEndUnix);
             if(sp.ThingDetailId!=null)
             {
-                query.Where(x => x.ThingDetailId == sp.ThingDetailId);
+                query = query.Where(x => x.ThingDetailId == sp.ThingDetailId);
             }
-            if(sp.SchoolBuildingId != null)
+            string SchoolIdPrefix = sp.SchoolId + "-";
+            query = query.Where(x => x.FoundAddress.StartsWith(SchoolIdPrefix));
+            if (sp.SchoolBuildingId != null)
             {
-                query.Where(x => ExtractSchoolBuildingId(x.FoundAddress) == sp.SchoolBuildingId);
+                query = query.Where(x => x.FoundAddress == (sp.SchoolId+"-"+sp.SchoolBuildingId).ToString());
             }
             switch (sp.ItemStatus) {
                 case 1:
-                    query.Where(x => x.Isgiven == 0);
+                    query = query.Where(x => x.Isgiven == 0);
                     break;
                 case 2:
-                    query.Where(x => x.Isgiven == 1);
+                    query = query.Where(x => x.Isgiven == 1);
                     break;
                 case 3:
                     break;
@@ -101,18 +102,17 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
             switch (sp.SortType)
             {
                 case 0:
-                    query.OrderByDescending(x => x.PublishTime);
+                    query = query.OrderByDescending(x => x.PublishTime);
                     break;
                 case 1:
-                    query.OrderByDescending(x => x.FoundTime);
+                    query = query.OrderByDescending(x => x.FoundTime);
                     break;
                 default:
-                    query.OrderByDescending(x => x.PublishTime);
+                    query = query.OrderByDescending(x => x.PublishTime);
                     break;
             }
-            return query.AsQueryable();
+            return query;
         }
-
         private int ExtractSchoolId(string AddressString)
         {
             return int.Parse(AddressString.Split('-')[0]);
