@@ -104,7 +104,8 @@ namespace FindLostThingsBackEnd.Service.Tencent
 
         public static string GetFormattedPolicy(string region, string appId, string shortBucketName, string allowPrefix)
         {
-            return $"%7B%22version%22%3A%222.0%22%2C%22statement%22%3A%5B%7B%22action%22%3A%5B%22name%2Fcos%3APutObject%22%2C%22name%2Fcos%3APostObject%22%2C%22name%2Fcos%3AInitiateMultipartUpload%22%2C%22name%2Fcos%3AListMultipartUploads%22%2C%22name%2Fcos%3AListParts%22%2C%22name%2Fcos%3AUploadPart%22%2C%22name%2Fcos%3ACompleteMultipartUpload%22%5D%2C%22effect%22%3A%22allow%22%2C%22principal%22%3A%7B%22qcs%22%3A%5B%22*%22%5D%7D%2C%22resource%22%3A%5B%22qcs%3A%3Acos%3A{region}%3Auid%2F{appId}%3Aprefix%2F%2F{appId}%2F{shortBucketName}%2F{allowPrefix}%22%5D%7D%5D%7D";
+            return "%7b%22version%22%3a%222.0%22%2c%22statement%22%3a%5b%7b%22action%22%3a%5b%22name%2fcos%3aPutObject%22%2c%22name%2fcos%3aPostObject%22%2c%22name%2fcos%3aGetObject%22%2c%22name%2fcos%3aInitiateMultipartUpload%22%2c%22name%2fcos%3aListMultipartUploads%22%2c%22name%2fcos%3aListParts%22%2c%22name%2fcos%3aUploadPart%22%2c%22name%2fcos%3aCompleteMultipartUpload%22%5d%2c%22effect%22%3a%22allow%22%2c%22principal%22%3a%7b%22qcs%22%3a%5b%22*%22%5d%7d%2c%22resource%22%3a%5b%22qcs%3a%3acos%3aap-guangzhou%3auid%2f1255798866%3anemesiss-1255798866%2f*%22%5d%7d%5d%7d";
+            
         }
     }
 
