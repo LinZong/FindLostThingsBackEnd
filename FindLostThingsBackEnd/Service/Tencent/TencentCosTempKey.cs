@@ -104,7 +104,7 @@ namespace FindLostThingsBackEnd.Service.Tencent
 
         public static string GetFormattedPolicy(string region, string appId, string shortBucketName, string allowPrefix)
         {
-            return "%7b%22version%22%3a%222.0%22%2c%22statement%22%3a%5b%7b%22action%22%3a%5b%22*%22%5d%2c%22effect%22%3a%22allow%22%2c%22resource%22%3a%5b%22qcs%3a%3acos%3aap-guangzhou%3auid%2f1255798866%3anemesiss-1255798866%2f*%22%5d%7d%5d%7d";
+            return "%7b%22version%22%3a%222.0%22%2c%22statement%22%3a%5b%7b%22action%22%3a%5b%22name%2fcos%3aPutObject%22%2c%22name%2fcos%3aPostObject%22%2c%22name%2fcos%3aInitiateMultipartUpload%22%2c%22name%2fcos%3aListMultipartUploads%22%2c%22name%2fcos%3aListParts%22%2c%22name%2fcos%3aUploadPart%22%2c%22name%2fcos%3aCompleteMultipartUpload%22%2c%22name%2fcos%3aHeadObject%22%2c%22name%2fcos%3aGetObject%22%2c%22name%2fcos%3aGetObjectACL%22%5d%2c%22effect%22%3a%22allow%22%2c%22resource%22%3a%5b%22qcs%3a%3acos%3aap-guangzhou%3auid%2f1255798866%3anemesiss-1255798866%2f*%22%5d%7d%5d%7d";
         }
     }
 
