@@ -248,6 +248,10 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
                 .HasColumnName("real_person_vaild")
                 .HasColumnType("int(11)");
 
+                entity.Property(e => e.Login)
+                .HasColumnName("login")
+                .HasColumnType("int(11)");
+
                 entity.Property(e => e.RealPersonIdentity)
                 .HasColumnName("real_person_identity");
             });

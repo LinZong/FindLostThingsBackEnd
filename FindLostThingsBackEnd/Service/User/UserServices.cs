@@ -28,12 +28,9 @@ namespace FindLostThingsBackEnd.Service.User
         {
             var user = userOperator.GetUserInfo(RequestUserID);
             if (user == null) return false;
-            else
-            {
-                if (user.AccessToken != CheckACTK)
-                    return false;
-                return true;
-            }
+            if (user.AccessToken != CheckACTK)
+                return false;
+            return true;
         }
         public CommonResponse GetUserInfo(long userid)
         {
@@ -110,33 +107,30 @@ namespace FindLostThingsBackEnd.Service.User
         }
         public CommonResponse UpdateUserInfo(UserInfo info)
         {
-            var Info = userOperator.GetUserInfo(info.Id);
-            if (Info == null)
+            var OldInfo = userOperator.GetUserInfo(info.Id);
+            if (OldInfo == null)
             {
                 return new CommonResponse()
                 {
                     StatusCode = 1202
                 };
             }
-            else
+            try
             {
-                try
+                PropertyHelper.DeepCopyProperties<UserInfo, JsonIgnoreAttribute>(info, OldInfo);
+                userOperator.UpdateUserInfo(OldInfo);
+                return new CommonResponse()
                 {
-                    PropertyHelper.DeepCopyProperties<UserInfo,JsonIgnoreAttribute>(info, Info);
-                    userOperator.UpdateUserInfo(Info);
-                    return new CommonResponse()
-                    {
-                        StatusCode = 0
-                    };
-                }
-                catch (Exception e)
+                    StatusCode = 0
+                };
+            }
+            catch (Exception e)
+            {
+                ErrorHandler.FormatError<UserServices>(Logger, e);
+                return new CommonResponse()
                 {
-                    ErrorHandler.FormatError<UserServices>(Logger, e);
-                    return new CommonResponse()
-                    {
-                        StatusCode = 1202
-                    };
-                }
+                    StatusCode = 1202
+                };
             }
         }
 

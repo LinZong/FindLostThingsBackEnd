@@ -21,6 +21,7 @@ namespace FindLostThingsBackEnd.Persistence.Model
         //public string Email { get; set; }
         public int RealPersonValid { get; set; }
         public string RealPersonIdentity { get; set; }
+        public int Login { get; set; }
 
     }
 }

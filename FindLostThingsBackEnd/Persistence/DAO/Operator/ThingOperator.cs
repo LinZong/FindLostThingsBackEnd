@@ -75,9 +75,9 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
         public IQueryable<LostThingsRecord> SearchRecords(SearchLostThingsParameter sp)
         {
             var query = context.LostThingsRecord.Where(x => x.ThingCatId == sp.ThingCatId
-                                            && ExtractSchoolId(x.FoundAddress) == sp.ThingDetailId
+                                            && ExtractSchoolId(x.FoundAddress) == sp.SchoolId
                                             && sp.FoundDateBeginUnix <= x.FoundTime 
-                                            && x.FoundTime <= sp.FoundDateEndUnix);
+                                            && x.FoundTime <= sp.FoundDateEndUnix).ToList();
             if(sp.ThingDetailId!=null)
             {
                 query.Where(x => x.ThingDetailId == sp.ThingDetailId);
@@ -110,7 +110,7 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
                     query.OrderByDescending(x => x.PublishTime);
                     break;
             }
-            return query;
+            return query.AsQueryable();
         }
 
         private int ExtractSchoolId(string AddressString)
