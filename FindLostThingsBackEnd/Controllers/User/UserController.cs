@@ -41,9 +41,10 @@ namespace FindLostThingsBackEnd.Controllers.User
 
         [HttpGet("info")]
         [TypeFilter(typeof(AuthorizeACTKAttribute))]
-        public JsonResult GetUserInfo([FromHeader] long userid)
+        public JsonResult GetUserInfo([FromHeader] long userid,[FromQuery] long? query)
         {
-            return new JsonResult(services.GetUserInfo(userid));
+            long QueryUserID = query == null ? userid : (long)query;
+            return new JsonResult(services.GetUserInfo(QueryUserID));
         }
 
         [HttpPut("js-info")]

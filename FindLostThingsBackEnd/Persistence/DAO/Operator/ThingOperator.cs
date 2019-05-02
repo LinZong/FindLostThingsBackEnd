@@ -24,7 +24,7 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
         public IQueryable<LostThingsRecord> GetTimeLines(int HaveFetchItemCount, string EndItemId, int Count = 100)
         {
             //注释掉的是最优解，但是MySQL垃圾引擎不支持。
-            var DbTimeLine = context.LostThingsRecord.OrderByDescending(x => x.PublishTime).Skip(HaveFetchItemCount).Take(Count + 500).ToList();
+            var DbTimeLine = context.LostThingsRecord.Where(x => x.Isgiven == 0).OrderByDescending(x => x.PublishTime).Skip(HaveFetchItemCount).Take(Count + 500).ToList();
             if(EndItemId == null || DbTimeLine.All(x => x.Id != EndItemId))
             {
                 return DbTimeLine.Take(Count).AsQueryable();
