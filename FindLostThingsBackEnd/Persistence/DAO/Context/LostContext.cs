@@ -22,6 +22,7 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
         public virtual DbSet<ThingsCategory> ThingsCategory { get; set; }
         public virtual DbSet<ThingsDetail> ThingsDetail { get; set; }
         public virtual DbSet<UserInfo> UserInfo { get; set; }
+        public virtual DbSet<VersionInfo> Version { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,6 +31,31 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<VersionInfo>(entity =>
+            {
+                entity.ToTable("version", "lost");
+
+                entity.Property(e => e.VersionNum)
+                        .HasColumnName("version_num")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .IsUnicode(false);
+
+                entity.Property(e => e.Download)
+                        .HasColumnName("download")
+                        .IsRequired()
+                        .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                        .HasColumnName("description")
+                        .IsRequired()
+                        .IsUnicode(false);
+
+
+                entity.HasKey(e => e.VersionNum);
+            });
+
             modelBuilder.Entity<LostThingsRecord>(entity =>
             {
                 entity.ToTable("lost_things_record", "lost");
