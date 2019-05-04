@@ -34,5 +34,13 @@ namespace FindLostThingsBackEnd.Service.Lost
                                                   CategoryDetails = thingsCategory.GetThingsDetail(CategoryId)
                                                 };
         }
+
+        public CommonResponse GetAllThingsCategoryDetail()
+        {
+            return new CategoryDetailResponse() { StatusCode = 0,
+                                                  CategoryId = -1,
+                                                  CategoryDetails = thingsCategory.GetAllThingsDetail()
+                                                };
+        }
     }
 }

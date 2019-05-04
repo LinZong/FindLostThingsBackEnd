@@ -30,7 +30,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
         {
             if (id == null)
             {
-                return new JsonResult(new CommonResponse() { StatusCode = -1 });
+                return new JsonResult(_category.GetAllThingsCategoryDetail());
             }
             return new JsonResult(_category.GetThingsCategoryDetail((int)id));
         }

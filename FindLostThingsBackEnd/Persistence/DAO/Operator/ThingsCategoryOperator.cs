@@ -28,6 +28,11 @@ namespace FindLostThingsBackEnd.Persistence.DAO.Operator
         {
             return context.ThingsDetail.Where(x => x.CategoryId == CategoryId);
         }
+
+        public IQueryable<ThingsDetail> GetAllThingsDetail() 
+        {
+            return context.ThingsDetail.AsQueryable();
+        }
         public bool IfCategoryIdExist(int CategoryId)
         {
             return context.ThingsCategory.Count(x => x.Id == CategoryId) > 0;

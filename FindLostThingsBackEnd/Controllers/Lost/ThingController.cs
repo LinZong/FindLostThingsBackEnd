@@ -62,7 +62,7 @@ namespace FindLostThingsBackEnd.Controllers.Lost
             return new JsonResult(thingServices.UpdateLostThingRecord(record));
         }
 
-        [HttpGet("search")]
+        [HttpPost("search")]
         [TypeFilter(typeof(AuthorizeACTKAttribute))]
         public JsonResult SearchLostThingRecords([FromBody] SearchLostThingsParameter sp)
         {
