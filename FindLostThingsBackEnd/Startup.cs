@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using FindLostThingsBackEnd.Middleware;
 using ChargeScheduler.Services.User.UIDWorker;
 using FindLostThingsBackEnd.Service.Tencent;
+using Jiguang.JPush.JPushDependencyInjection;
 
 namespace FindLostThingsBackEnd
 {
@@ -45,6 +46,13 @@ namespace FindLostThingsBackEnd
                 x.DurationSeconds = 1800;
                 x.Region = "ap-guangzhou";
             });
+
+            services.AddJPush(x => 
+            {
+                x.AppKey = Configuration["JPushInfo:AppKey"];
+                x.MasterSecret = Configuration["JPushInfo:MasterSecret"];
+            });
+
             services.AddCors();
             services.AddSingleton<IdWorker>();
             services.AddAllServices<IFindLostThingsService>();

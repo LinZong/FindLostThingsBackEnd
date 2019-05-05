@@ -9,10 +9,12 @@ namespace FindLostThingsBackEnd.Controllers
     [ApiController]
     public class CommonController : ControllerBase
     {
+        private readonly PushNotifications PushClient;
         private readonly LostContext context;
-        public CommonController(LostContext ctx)
+        public CommonController(LostContext ctx,PushNotifications push)
         {
             context = ctx;
+            PushClient = push;
         }
         // GET api/values
         [HttpGet("works")]
@@ -25,6 +27,13 @@ namespace FindLostThingsBackEnd.Controllers
         public JsonResult GetLatestVersion()
         {
             return new JsonResult(context.Version.FirstOrDefault());
+        }
+        
+        [HttpGet("pushtest")]
+        public string TestPushSerivce()
+        {
+            PushClient.NotifyNewPublsih();
+            return "OK!";
         }
     }
 }

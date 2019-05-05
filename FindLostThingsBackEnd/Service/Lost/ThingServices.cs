@@ -17,9 +17,11 @@ namespace FindLostThingsBackEnd.Service.Lost
     public class ThingServices : IFindLostThingsService
     {
         private readonly ThingOperator thing;
-        public ThingServices(ThingOperator th)
+        private readonly PushNotifications PushClient;
+        public ThingServices(ThingOperator th,PushNotifications push)
         {
             thing = th;
+            PushClient = push;
         }
 
         public IQueryable<LostThingsRecord> GetTimeLines(int HaveFetchedCount, string EndItemId, int Count)
@@ -99,6 +101,7 @@ namespace FindLostThingsBackEnd.Service.Lost
             }
             if (thing.UpdateLostThingRecord(record,true))
             {
+                PushClient.NotifyNewPublsih();
                 return new CommonResponse()
                 {
                     StatusCode = 0

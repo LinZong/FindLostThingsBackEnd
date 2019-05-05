@@ -20,8 +20,24 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore.Design" Version="8.0.15" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="RestSharp" Version="106.6.9" />
     <PackageReference Include="XC.RSAUtil" Version="1.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Jiguang.JPush">
+      <HintPath>Libs\Jiguang.JPush.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  
 </Project>
