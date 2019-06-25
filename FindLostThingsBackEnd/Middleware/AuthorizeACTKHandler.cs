@@ -22,20 +22,7 @@ namespace FindLostThingsBackEnd.Middleware
         }
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            return await Task.Run(() =>
-            {
-                bool IsACTK = Request.Headers.TryGetValue("actk", out StringValues ACTK);
-                bool IsUserID = Request.Headers.TryGetValue("userid", out StringValues USERID);
-                if(!IsACTK || !IsUserID)
-                {
-                    return AuthenticateResult.Fail("Request parameter is invalid.");
-                }
-                var claims = new[] { new Claim(ClaimTypes.Name, USERID[0]) };
-                var identity = new ClaimsIdentity(claims, Scheme.Name);
-                var principal = new ClaimsPrincipal(identity);
-                var ticket = new AuthenticationTicket(principal, Scheme.Name);
-                return AuthenticateResult.Success(ticket);
-            });
+            return await Task.FromResult(AuthenticateResult.NoResult());
         }
 
         protected override Task HandleForbiddenAsync(AuthenticationProperties properties)

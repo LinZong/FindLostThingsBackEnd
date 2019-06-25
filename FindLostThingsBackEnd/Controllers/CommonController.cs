@@ -18,6 +18,7 @@ namespace FindLostThingsBackEnd.Controllers
         }
         // GET api/values
         [HttpGet("works")]
+        [Authorize]
         public ActionResult<string> Get()
         {
             return "It works!";
